@@ -36,7 +36,7 @@ const AddPlayer = () => {
             return false;
         }
 
-        // Check jersey number uniqueness by calling backend
+// will prolly do this in endpoint no need here
         // try {
         //     const res = await axios.get(`/api/players/check-jersey/${jerseyNumber}`);
         //     if (!res.data.available) {
@@ -57,7 +57,7 @@ const AddPlayer = () => {
         if (!(await validateInputs())) return;
 
         try {
-            await axios.post("/api/players/add", {
+            await axios.post("/api/data/player/add", {
                 playerName,
                 position,
                 jerseyNumber,
@@ -65,7 +65,7 @@ const AddPlayer = () => {
                 goals,
             });
             toast.success("Player added successfully!");
-            router.push("/players"); // change path if needed
+            router.push("/players");
         } catch (error) {
             toast.error("Error adding player.");
         }
@@ -74,7 +74,7 @@ const AddPlayer = () => {
     return (
         <>
             <ToastContainer />
-            
+
             <div className="flex flex-col justify-center p-8 md:p-14">
                 <h2 className="text-4xl font-bold text-violet-800 mb-3">Add Player</h2>
                 <p className="font-light text-gray-500 mb-8">Create new players with:</p>

@@ -9,7 +9,10 @@ export class CreatePlayer {
         age: number,
         goals: number
     ) {
-        // Validate uniqueness
+console.log(playerName);
+console.log(position);
+console.log(jerseyNumber);
+console.log(age);
         const existing = await prisma.player.findFirst({
             where: { jerseyNumber },
         });
@@ -18,7 +21,7 @@ export class CreatePlayer {
             throw new Error("Jersey number already in use.");
         }
 
-        const newPlayer = await prisma.player.create({
+        return await prisma.player.create({
             data: {
                 name: playerName,
                 position,
@@ -27,7 +30,5 @@ export class CreatePlayer {
                 goals,
             },
         });
-
-        return newPlayer;
     }
 }

@@ -7,6 +7,7 @@ export async function POST(request: Request) {
         const { playerName, position, jerseyNumber, age, goals } = await request.json();
 
         const createPlayer = new CreatePlayer();
+        console.log(playerName)
         const newPlayer = await createPlayer.createPlayer(
             playerName,
             position,
@@ -14,6 +15,7 @@ export async function POST(request: Request) {
             age,
             goals
         );
+        console.log(newPlayer);
 
         return NextResponse.json(
             { message: "Player added successfully!", player: newPlayer },
