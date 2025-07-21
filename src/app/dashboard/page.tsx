@@ -2,7 +2,7 @@
 
 import Search from "@/components/search";
 import React, { useEffect, useState } from "react";
-import { ToastContainer } from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import axios from "axios";
 import { useSearchParams, useRouter } from "next/navigation";
 
@@ -51,6 +51,29 @@ export default function Dashboard() {
         router.push(`?${params.toString()}`);
     };
 
+    const handlePlayerDelete = async (playerId: number) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this player?");
+        if (!confirmDelete) return;
+
+        try {
+            await axios.delete(`/api/data/player/delete/${playerId}`);
+            setLoading(true);
+            setTimeout(() => {
+                toast.success("Player deleted successfully");
+                fetchPlayers(currentPage, query);
+            }, 500);
+        } catch (error) {
+            console.error("Error deleting player:", error);
+            toast.error("Failed to delete player");
+            setLoading(false);
+        }
+    };
+
+    const handlePlayerEdit = (playerId: string) => {
+        router.push(`/students/edit/${playerId}`);
+    };
+
+
     return (
         <>
             <ToastContainer />
@@ -59,7 +82,7 @@ export default function Dashboard() {
                     <h1 className="text-3xl font-bold text-violet-800 mb-6">Player Management</h1>
 
                     <div className="mb-6 bg-white p-4 rounded-lg shadow-md">
-                        {/* Remove onSearch and initialValue props to match student table */}
+                        {/* Reminder To revisit this after*/}
                         <Search placeholder="Search players..." />
                     </div>
 
@@ -80,6 +103,7 @@ export default function Dashboard() {
                                             <th className="px-4 py-3 text-left">Jersey Number</th>
                                             <th className="px-4 py-3 text-left">Age</th>
                                             <th className="px-4 py-3 text-left">Goals</th>
+                                            <th className="px-4 py-3 text-left">Actions</th>
                                         </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200">
@@ -91,6 +115,23 @@ export default function Dashboard() {
                                                 <td className="px-4 py-3 text-gray-700">{player.jerseyNumber}</td>
                                                 <td className="px-4 py-3 text-gray-700">{player.age}</td>
                                                 <td className="px-4 py-3 text-gray-700">{player.goals}</td>
+                                                <td className="px-4 py-3 text-gray-700">
+                                                    <div className="flex gap-2 justify-center">
+                                                        <button
+                                                            onClick={() => handlePlayerEdit(player.id)}
+                                                            className="bg-indigo-600 text-white px-3 py-1.5 rounded-md hover:bg-indigo-700 transition text-sm flex items-center"
+                                                        >
+                                                            Edit
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handlePlayerDelete(player.id)}
+                                                            className="bg-red-500 text-white px-3 py-1.5 rounded-md hover:bg-red-600 transition text-sm flex items-center"
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </div>
+
+                                                </td>
                                             </tr>
                                         ))}
                                         </tbody>
