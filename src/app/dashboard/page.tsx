@@ -70,7 +70,7 @@ export default function Dashboard() {
     };
 
     const handlePlayerEdit = (playerId: string) => {
-        router.push(`/students/edit/${playerId}`);
+        router.push(`/player/edit/${playerId}`);
     };
 
 
