@@ -65,7 +65,7 @@ const AddPlayer = () => {
                 goals,
             });
             toast.success("Player added successfully!");
-            router.push("/players");
+            router.push("/dashboard");
         } catch (error) {
             toast.error("Error adding player.");
         }
