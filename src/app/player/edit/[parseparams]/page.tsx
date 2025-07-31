@@ -1,4 +1,4 @@
-// app/players/edit/[playerId]/page.tsx
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -94,7 +94,7 @@ const EditPlayer = () => {
         if (!confirmSubmission) return;
 
         axios
-            .put(`/api/data/player/update/${parseparams}`, {
+            .put(`/api/data/player/edit/put/${parseparams}`, {
                 name: player.name,
                 position: player.position,
                 jerseyNumber: parseInt(player.jerseyNumber),
